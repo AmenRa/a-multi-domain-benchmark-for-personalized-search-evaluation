@@ -1,0 +1,20 @@
+name: academic-search-dataset
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - black  # Code formatter
+  - tqdm  # Progress bars
+  - notebook
+  - ipykernel
+  - ipywidgets
+  - unidecode
+  - elasticsearch=7.12.0
+  - nltk  # Classic NLP
+  - optuna  # Hyper-parameters search
+  - click=7  # CLI builder
+  - pip
+  - pip:
+    - pycld3  # Lang detector from Google
+    - krovetzstemmer
+    - ranx

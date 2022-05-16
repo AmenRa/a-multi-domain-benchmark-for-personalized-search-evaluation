@@ -1,0 +1,1 @@
+cd elasticsearch/bin && ./elasticsearch
