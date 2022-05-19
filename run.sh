@@ -1,8 +1,8 @@
 # Create raw_data folder
-# mkdir -p raw_data
+mkdir -p raw_data
 
 # Create datasets folder
-# mkdir -p datasets
+mkdir -p datasets
 
 # DEFINE FIELDS OF STUDY -------------------------------------------------------
 fos="mathematics economics psychology physics"
