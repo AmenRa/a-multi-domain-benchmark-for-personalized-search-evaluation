@@ -5,10 +5,10 @@ from src.oneliner_utils import join_path, read_jsonl, write_jsonl
 from src.to_timestamp import year_to_timestamp
 
 
-def split_train_test(queries: list):
-    timestamp_2018 = year_to_timestamp("2018")
-    train_set = [x for x in queries if x["timestamp"] < timestamp_2018]
-    test_set = [x for x in queries if x["timestamp"] >= timestamp_2018]
+def split_train_test(queries: list, year: int):
+    timestamp = year_to_timestamp(year)
+    train_set = [x for x in queries if x["timestamp"] < timestamp]
+    test_set = [x for x in queries if x["timestamp"] >= timestamp]
     return train_set, test_set
 
 
@@ -27,7 +27,8 @@ def load_queries(dataset_path: str):
 @click.command()
 @click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang, fos_list):
+@click.option("--year", default=2019)
+def main(lang, fos_list, year):
     datasets_path = join_path("tmp", "datasets")
     lang_path = join_path(datasets_path, lang)
     for i, fos in enumerate(fos_list):
@@ -38,7 +39,7 @@ def main(lang, fos_list):
         queries = load_queries(dataset_path)
 
         print("Splitting queries")
-        train_set, test_set = split_train_test(queries)
+        train_set, test_set = split_train_test(queries, year)
         print(f"train: {len(train_set)}")
         print(f"test: {len(test_set)}")
 
