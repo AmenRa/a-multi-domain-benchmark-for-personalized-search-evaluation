@@ -6,28 +6,6 @@ import click
 from src.oneliner_utils import join_path, read_list, write_list
 from tqdm import tqdm
 
-fos_list = [
-    # "history",
-    # "biology",
-    # "medicine",
-    "computer_science",
-    # "environmental_science",
-    # "mathematics",
-    # "geography",
-    # "materials_science",
-    # "chemistry",
-    # "political_science",
-    # "economics",
-    # "psychology",
-    # "business",
-    # "sociology",
-    # "art",
-    # "philosophy",
-    # "engineering",
-    # "geology",
-    # "physics",
-]
-
 
 def get_doc_ids(lang: str, fos: str):
     # Folder paths
@@ -40,7 +18,7 @@ def get_doc_ids(lang: str, fos: str):
     papers_path = join_path(raw_data_path, "papers.jsonl")
     paper_references_path = join_path(raw_data_path, "paper_references.jsonl")
     doc_ids_path = join_path(dataset_path, "doc_ids.txt")
-    doc_ids_path_2 = join_path(dataset_path, "doc_ids_2.txt")
+    final_doc_ids_path = join_path(dataset_path, "final_doc_ids.txt")
     doc_ids = set(read_list(doc_ids_path))
 
     paper_date_dict = {}
@@ -83,7 +61,7 @@ def get_doc_ids(lang: str, fos: str):
                 paper_references_dict[doc_id] = rel_doc_ids
                 is_referenced_ids |= set(rel_doc_ids)
 
-    while is_referenced_ids > 5_000_000:
+    while len(is_referenced_ids) > 5_000_000:
         paper_references_dict = {
             k: v
             for k, v in tqdm(
@@ -107,12 +85,13 @@ def get_doc_ids(lang: str, fos: str):
 
     print(set(paper_references_dict) == is_referenced_ids)
     print(f"Remaining papers: {len(is_referenced_ids)}")
-    write_list(list(is_referenced_ids), doc_ids_path_2)
+    write_list(list(is_referenced_ids), final_doc_ids_path)
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     for i, fos in enumerate(fos_list):
         print(f"{i+1}/{len(fos_list)} - {fos}")
         get_doc_ids(lang, fos)

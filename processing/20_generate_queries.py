@@ -16,28 +16,6 @@ query = {
 }
 """
 
-fos_list = [
-    # "biology",
-    # "chemistry",
-    # "engineering",
-    # "medicine",
-    # "political_science",
-    # "materials_science",
-    # "physics",
-    "computer_science",
-    # "mathematics",
-    # "economics",
-    # "psychology",
-    # "geography",
-    # "geology",
-    # "art",
-    # "sociology",
-    # "philosophy",
-    # "business",
-    # "history",
-    # "environmental_science",
-]
-
 
 def filter_queries_by_min_user_docs(queries, min_user_docs=5):
     return [
@@ -200,13 +178,14 @@ def generate_keyword_queries(dataset_path: str):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
 @click.option(
     "--kind", default="title", type=click.Choice(["title", "keywords"])
 )
 @click.option("--min_rel", default=1)
 @click.option("--min_user_docs", default=20)
-def main(lang, kind, min_rel, min_user_docs):
+def main(lang, fos_list, kind, min_rel, min_user_docs):
     datasets_path = join_path("tmp", "datasets")
     lang_path = join_path(datasets_path, lang)
 

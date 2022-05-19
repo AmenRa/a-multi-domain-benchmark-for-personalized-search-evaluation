@@ -10,4 +10,4 @@
   sh download_es.sh
   ```
 
-- Follow run.sh
+- Follow run.sh and uncomment what you want to run, for BM25 stuff you need to start Elasticsearch first `sh start_es.sh`

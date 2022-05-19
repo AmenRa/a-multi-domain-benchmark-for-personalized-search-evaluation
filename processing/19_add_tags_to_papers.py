@@ -5,28 +5,6 @@ import click
 from src.oneliner_utils import join_path, read_jsonl
 from tqdm import tqdm
 
-fos_list = [
-    # "biology",
-    # "chemistry",
-    # "engineering",
-    # "medicine",
-    # "political_science",
-    # "materials_science",
-    # "physics",
-    "computer_science",
-    # "mathematics",
-    # "economics",
-    # "psychology",
-    # "geography",
-    # "geology",
-    # "art",
-    # "sociology",
-    # "philosophy",
-    # "business",
-    # "history",
-    # "environmental_science",
-]
-
 
 def add_tags(lang: str, fos: str):
     # Folder paths
@@ -62,8 +40,9 @@ def add_tags(lang: str, fos: str):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     for i, fos in enumerate(fos_list):
         print(f"{i+1}/{len(fos_list)} - {fos}")
         add_tags(lang, fos)

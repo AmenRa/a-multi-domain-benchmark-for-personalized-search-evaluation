@@ -5,28 +5,6 @@ import click
 from src.oneliner_utils import join_path, read_list
 from tqdm import tqdm
 
-fos_list = [
-    # "history",
-    # "biology",
-    # "medicine",
-    "computer_science",
-    # "environmental_science",
-    # "mathematics",
-    # "geography",
-    # "materials_science",
-    # "chemistry",
-    # "political_science",
-    # "economics",
-    # "psychology",
-    # "business",
-    # "sociology",
-    # "art",
-    # "philosophy",
-    # "engineering",
-    # "geology",
-    # "physics",
-]
-
 
 def get_paper_references_by_fos(lang: str, fos: str, prog_bar_position: int):
     # Folder paths
@@ -36,7 +14,7 @@ def get_paper_references_by_fos(lang: str, fos: str, prog_bar_position: int):
     dataset_path = join_path(lang_path, fos)
 
     # File paths
-    doc_ids_path = join_path(dataset_path, "doc_ids.txt")
+    doc_ids_path = join_path(dataset_path, "final_doc_ids.txt")
     paper_references_path = join_path(raw_data_path, "paper_references.jsonl")
     write_path = join_path(dataset_path, "paper_references.jsonl")
 
@@ -71,8 +49,9 @@ def get_paper_references_by_fos(lang: str, fos: str, prog_bar_position: int):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     with Pool(len(fos_list)) as pool:
         pool.starmap(
             get_paper_references_by_fos,

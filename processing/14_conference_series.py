@@ -5,29 +5,6 @@ import click
 from src.oneliner_utils import join_path, read_jsonl, write_jsonl
 from tqdm import tqdm
 
-fos_list = [
-    # "history",
-    # "history",
-    # "biology",
-    # "medicine",
-    "computer_science",
-    # "environmental_science",
-    # "mathematics",
-    # "geography",
-    # "materials_science",
-    # "chemistry",
-    # "political_science",
-    # "economics",
-    # "psychology",
-    # "business",
-    # "sociology",
-    # "art",
-    # "philosophy",
-    # "engineering",
-    # "geology",
-    # "physics",
-]
-
 
 def get_conference_series(lang: str, fos: str, prog_bar_position: int):
     # Folder paths
@@ -64,8 +41,9 @@ def get_conference_series(lang: str, fos: str, prog_bar_position: int):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     with Pool(len(fos_list)) as pool:
         pool.starmap(
             get_conference_series,

@@ -5,28 +5,6 @@ import click
 from src.oneliner_utils import join_path, read_jsonl
 from tqdm import tqdm
 
-fos_list = [
-    # "history",
-    # "biology",
-    # "medicine",
-    "computer_science",
-    # "environmental_science",
-    # "mathematics",
-    # "geography",
-    # "materials_science",
-    # "chemistry",
-    # "political_science",
-    # "economics",
-    # "psychology",
-    # "business",
-    # "sociology",
-    # "art",
-    # "philosophy",
-    # "engineering",
-    # "geology",
-    # "physics",
-]
-
 
 def get_authors(lang: str, fos: str):
     # Folder paths
@@ -77,8 +55,9 @@ def get_authors(lang: str, fos: str):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     for fos in fos_list:
         get_authors(lang, fos)
 

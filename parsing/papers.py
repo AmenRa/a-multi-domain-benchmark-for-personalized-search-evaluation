@@ -90,7 +90,7 @@ def main():
                         paper["publisher"] = " ".join(
                             object.split("/")[-1].split("_")
                         )
-                elif "title" in predicate:
+                elif "title" in predicate and paper["title"] == "":
                     paper["title"] = normalize_str(predicate.split('"')[1])
                 elif "doi" in predicate:
                     paper["doi"] = predicate.split('"')[1]

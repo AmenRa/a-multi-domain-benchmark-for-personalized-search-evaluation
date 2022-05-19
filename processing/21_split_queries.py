@@ -4,33 +4,11 @@ import click
 from src.oneliner_utils import join_path, read_jsonl, write_jsonl
 from src.to_timestamp import year_to_timestamp
 
-fos_list = [
-    # "biology",
-    # "chemistry",
-    # "engineering",
-    # "medicine",
-    # "political_science",
-    # "materials_science",
-    # "physics",
-    "computer_science",
-    # "mathematics",
-    # "economics",
-    # "psychology",
-    # "geography",
-    # "geology",
-    # "art",
-    # "sociology",
-    # "philosophy",
-    # "business",
-    # "history",
-    # "environmental_science",
-]
-
 
 def split_train_test(queries: list):
-    timestamp_2019 = year_to_timestamp("2019")
-    train_set = [x for x in queries if x["timestamp"] < timestamp_2019]
-    test_set = [x for x in queries if x["timestamp"] >= timestamp_2019]
+    timestamp_2018 = year_to_timestamp("2018")
+    train_set = [x for x in queries if x["timestamp"] < timestamp_2018]
+    test_set = [x for x in queries if x["timestamp"] >= timestamp_2018]
     return train_set, test_set
 
 
@@ -47,8 +25,9 @@ def load_queries(dataset_path: str):
 
 
 @click.command()
+@click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-def main(lang):
+def main(lang, fos_list):
     datasets_path = join_path("tmp", "datasets")
     lang_path = join_path(datasets_path, lang)
     for i, fos in enumerate(fos_list):
