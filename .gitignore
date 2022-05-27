@@ -5,6 +5,7 @@
 /*.ipynb
 /folder_structure.md
 /stats.txt
+/overlapping_queries
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
