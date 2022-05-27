@@ -35,6 +35,9 @@ def add_abstracts(lang: str, fos: str):
             paper = papers_dict.get(doc_id, False)
             if paper:
                 paper["text"] = abstract["text"]
+                del paper["cit_count"]
+                del paper["estimated_cit_count"]
+                del paper["ref_count"]
                 write_f.write(json.dumps(paper) + "\n")
                 del papers_dict[doc_id]
             else:

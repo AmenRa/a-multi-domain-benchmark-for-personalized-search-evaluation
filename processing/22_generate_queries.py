@@ -142,10 +142,8 @@ def generate_title_queries(dataset_path: str):
     return queries
 
 
-def generate_keyword_queries(dataset_path: str):
-
-    # papers_path = join_path(dataset_path, "papers.jsonl")
-    papers_path = join_path("datasets/en/computer_science/collection.jsonl")
+def generate_keyword_queries(fos: str):
+    papers_path = join_path("datasets", "en", fos, "collection.jsonl")
 
     queries = []
 
@@ -196,7 +194,7 @@ def main(lang, fos_list, kind, min_rel, min_user_docs):
         if kind == "title":
             queries = generate_title_queries(dataset_path)
         else:
-            queries = generate_keyword_queries(dataset_path)
+            queries = generate_keyword_queries(fos)
         queries = add_relevants(dataset_path, queries)
         queries = filter_queries_by_min_relevants(queries, min_rel)
         queries = add_user(dataset_path, queries)
