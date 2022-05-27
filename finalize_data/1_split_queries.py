@@ -20,6 +20,10 @@ def split_train_val(train_set, train_ratio=0.99):
 #     return train_set, val_set
 
 
+def filter_by_min_rels(queries, min_rels=10):
+    return [x for x in queries if len(x["rel_doc_ids"]) >= min_rels]
+
+
 @click.command()
 @click.option(
     "--lang",
@@ -63,6 +67,9 @@ def main(lang, fos, seed):
 
     # Split queries ------------------------------------------------------------
     train_set, val_set = split_train_val(train_set)
+
+    # Filter queries -----------------------------------------------------------
+    test_set = filter_by_min_rels(test_set, 10)
 
     # Save queries -------------------------------------------------------------
     write_jsonl(train_set, train_set_write_path)
