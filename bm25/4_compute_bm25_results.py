@@ -88,6 +88,9 @@ def main(lang, fos):
                     # Remove queries with no relevants retrieved ---------------
                     queries = [x for x in chunk if len(x["rel_doc_ids"]) > 0]
 
+                    # Remove queries with less than 10 results retrieved by BM25
+                    queries = [x for x in chunk if len(x["bm25_doc_ids"]) >= 10]
+
                     # Write queries --------------------------------------------
                     f_out.write(
                         "\n".join(json.dumps(x) for x in queries) + "\n"
