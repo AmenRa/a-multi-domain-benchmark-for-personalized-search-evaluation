@@ -41,9 +41,9 @@ def main():
                     paper_tags = new_paper_tags()
                 paper_tags["doc_id"] = id
 
-            paper_tags["keywords"].append(
-                normalize_str(predicate.split('"')[1])
-            )
+            keyword = normalize_str(predicate.split('"')[1])
+            if keyword not in paper_tags["keywords"]:
+                paper_tags["keywords"].append(keyword)
 
         f_out.write(json.dumps(paper_tags) + "\n")
 

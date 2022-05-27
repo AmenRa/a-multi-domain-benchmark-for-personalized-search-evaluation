@@ -40,7 +40,9 @@ def main():
                     paper_authors = new_paper_authors()
                 paper_authors["doc_id"] = id
 
-            paper_authors["author_ids"].append(subject.split("/")[-1])
+            author_id = subject.split("/")[-1]
+            if author_id not in paper_authors["author_ids"]:
+                paper_authors["author_ids"].append(author_id)
 
         f_out.write(json.dumps(paper_authors) + "\n")
 

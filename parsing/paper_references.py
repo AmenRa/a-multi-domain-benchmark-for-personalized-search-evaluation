@@ -40,7 +40,9 @@ def main():
                     paper_references = new_paper_references()
                 paper_references["doc_id"] = id
 
-            paper_references["rel_doc_ids"].append(object.split("/")[-1])
+            doc_id = object.split("/")[-1]
+            if doc_id not in paper_references["rel_doc_ids"]:
+                paper_references["rel_doc_ids"].append(doc_id)
 
         f_out.write(json.dumps(paper_references) + "\n")
 
