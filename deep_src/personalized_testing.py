@@ -6,10 +6,8 @@ import click
 import torch
 import tqdm
 from ranx import Qrels, Run, compare, evaluate
-from transformers import AutoModel, AutoTokenizer
 
 from dataloader.utils import load_test_query
-from model.model import BiEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -18,18 +16,6 @@ logger = logging.getLogger(__name__)
     "--embedding_folder",
     type=str,
     required=True,
-)
-@click.option(
-    "--bert_name",
-    type=str,
-    required=True,
-    help='BERT model name from hugging face repository'
-)
-@click.option(
-    "--model_path",
-    type=str,
-    required=True,
-    help='model weight path'
 )
 @click.option(
     "--domain_path",
@@ -56,13 +42,11 @@ logger = logging.getLogger(__name__)
 )
 def main(
     embedding_folder,
-    bert_name,
-    model_path,
     domain_path,
     split,
     mu
 ):
-    logging_file = f"testing_{domain_path.split('/')[-1]}.log"
+    logging_file = f"personalized_testing_{domain_path.split('/')[-1]}.log"
     logging.basicConfig(filename=os.path.join('../logs', logging_file),
                         filemode='a',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -75,14 +59,6 @@ def main(
         id_to_index = json.load(f)
 
     logger.debug('Loading models and tokenizer.')
-    tokenizer = AutoTokenizer.from_pretrained(bert_name)
-    query_model = AutoModel.from_pretrained(bert_name)
-    doc_model = AutoModel.from_pretrained(bert_name)
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-    model = BiEncoder(query_model, doc_model, tokenizer, device)
-    logger.info(f'Loading model weights from {model_path}')
-    model.load_state_dict(torch.load(model_path))
 
     queries_file = f'{split}/queries.jsonl'
     filename = os.path.join(domain_path, queries_file)
@@ -91,22 +67,19 @@ def main(
     test_qrels = {}
     bert_run = {}
     bm25_run = {}
-    # bert_bm25_run = {}
     for d in tqdm.tqdm(data, total=len(data)):
-        q_text = data[d]['text']
-        with torch.no_grad():
-            q_embedding = model.query_encoder(q_text).cpu()
+        user_docs = data[d]['user_docs']
+        q_embedding = doc_embedding[torch.tensor([int(id_to_index[x]) for x in user_docs])].mean(0, keepdim=True)
         d_qrels = {k: 1 for k in data[d]['relevant_docs']}
         test_qrels[d] = d_qrels
         
         bm25_docs = data[d]['bm25_docs']
         d_embeddings = doc_embedding[torch.tensor([int(id_to_index[x]) for x in bm25_docs])]
+        
         bert_scores = torch.einsum('xy, ly -> x', d_embeddings, q_embedding)
         
-        max_bm25_score = max(data[d]['bm25_scores'])
         bm25_run[d] = {doc_id: data[d]['bm25_scores'][i] for i, doc_id in enumerate(bm25_docs)}
         bert_run[d] = {doc_id: bert_scores[i].item() for i, doc_id in enumerate(bm25_docs)}
-        # bert_bm25_run[d] = {doc_id: bert_scores[i].item() + (data[d]['bm25_scores'][i]/max_bm25_score) for i, doc_id in enumerate(bm25_docs)}
     
     qrels = Qrels(test_qrels)
 
@@ -131,7 +104,7 @@ def main(
             logging.info(f'Mu: {m}, Score: {round(score ,5)}')
             print(f'Mu: {m}, Score: {round(score ,5)}')
             
-    logging.info(f'Reporting {split} - {domain_path} results with mu: {mu}')
+    logging.info(f'Reporting {domain_path} results with mu: {mu}')
     weight_bert_bm25 = {}
     for d in bert_run:
         max_bm25_res = max([bm25_run[d][doc] for doc in bm25_run[d]])
@@ -152,7 +125,7 @@ def main(
     report = compare(
         qrels=qrels,
         runs=[ranx_bert_run, ranx_bm25_run, ranx_bert_bm25_run],
-        metrics=['map@100', 'mrr@100', 'ndcg@100', 'mrr@10', 'ndcg@010'],
+        metrics=['map@100', 'mrr@100', 'ndcg@100', 'mrr@10', 'ndcg@10'],
         max_p=0.01  # P-value threshold
     )
     logger.info(f'\n{report}')

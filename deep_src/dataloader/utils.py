@@ -52,7 +52,8 @@ def load_test_query(file):
                 'text': query_json['text'],
                 'relevant_docs': query_json['rel_doc_ids'],
                 'bm25_docs': query_json['bm25_doc_ids'],
-                'bm25_scores': query_json['bm25_doc_scores']
+                'bm25_scores': query_json['bm25_doc_scores'],
+                'user_docs': query_json['user_doc_ids']
             }
             
         return query_file

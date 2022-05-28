@@ -12,12 +12,6 @@ from model.model import BiEncoder
 from dataloader.utils import load_jsonl
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="../logs/create_embedding_matrix.log",
-                    filemode='a',
-                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-                    datefmt='%H:%M:%S',
-                    level=logging.INFO
-                    )
 
 @click.command()
 @click.option(
@@ -58,7 +52,14 @@ def main(
     batch_size,
     model_path,
     output
-):            
+):
+    logging_file = f"embedding_{domain_path.split('/')[-1]}.log"
+    logging.basicConfig(filename=os.path.join('../logs', logging_file),
+                        filemode='a',
+                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                        datefmt='%H:%M:%S',
+                        level=logging.INFO
+                        )       
     collection_file = os.path.join(domain_path, 'collection.jsonl')
     logging.debug(f'Loading collection file {collection_file}')
     data = load_jsonl(collection_file)

@@ -6,6 +6,7 @@
 /folder_structure.md
 /stats.txt
 /overlapping_queries
+/outputs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -14,12 +14,6 @@ from dataloader.utils import load_jsonl, load_query_data, seed_everything
 from model.model import BiEncoder, TripletMarginLoss
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename="../logs/training.log",
-                    filemode='a',
-                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-                    datefmt='%H:%M:%S',
-                    level=logging.INFO
-                    )
 
 @click.command()
 @click.option(
@@ -94,6 +88,13 @@ def main(
     pretrained_weights,
     seed
 ):
+    logging_file = f"training_{domain_path.split('/')[-1]}.log"
+    logging.basicConfig(filename=os.path.join('../logs', logging_file),
+                        filemode='a',
+                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                        datefmt='%H:%M:%S',
+                        level=logging.INFO
+                        )
     if seed:
         seed_everything(seed)
     collection = load_jsonl(os.path.join(domain_path, 'collection.jsonl'))
@@ -109,7 +110,7 @@ def main(
     val_data = load_query_data(os.path.join(domain_path, 'val/queries.jsonl'))
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    loss_fn = TripletMarginLoss().to(device)
+    loss_fn = TripletMarginLoss(0.1).to(device)
     model = BiEncoder(query_model, doc_model, tokenizer, device)
     optimizer = Adam(model.parameters(), lr=lr)
     if scheduler_step == -1:
