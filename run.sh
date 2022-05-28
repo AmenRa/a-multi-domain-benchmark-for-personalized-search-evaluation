@@ -47,7 +47,7 @@ python -m processing.20_add_tags_to_papers $fos
 python -m processing.21_add_fos_to_papers $fos
 
 
-# QUERIES ======================================================================
+# QUERIES ----------------------------------------------------------------------
 python -m processing.22_generate_queries $fos
 
 python -m processing.23_split_queries psychology --year=2019
