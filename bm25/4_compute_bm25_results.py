@@ -89,7 +89,9 @@ def main(lang, fos):
                     queries = [x for x in chunk if len(x["rel_doc_ids"]) > 0]
 
                     # Remove queries with less than 10 results retrieved by BM25
-                    queries = [x for x in chunk if len(x["bm25_doc_ids"]) >= 10]
+                    queries = [
+                        x for x in queries if len(x["bm25_doc_ids"]) >= 10
+                    ]
 
                     # Write queries --------------------------------------------
                     f_out.write(

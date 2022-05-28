@@ -74,7 +74,7 @@ def main(lang, fos, samples):
     # Make the sampler behave in a deterministic way.
     sampler = TPESampler(seed=42)
     study = optuna.create_study(sampler=sampler, direction="maximize")
-    study.optimize(objective, n_trials=100)
+    study.optimize(objective, n_trials=35)
 
     # Save BM25 config
     write_json(study.best_params, bm25_config_path)
