@@ -55,6 +55,16 @@ python -m processing.23_split_queries physics --year=2017
 python -m processing.23_split_queries computer_science --year=2017
 python -m processing.23_split_queries political_science --year=2016
 
+python -m processing.24_filter_test_queries --fos=psychology --year=2019
+python -m processing.24_filter_test_queries --fos=physics --year=2017
+python -m processing.24_filter_test_queries --fos=computer_science --year=2017
+python -m processing.24_filter_test_queries --fos=political_science --year=2016
+
+
+python -m processing.25_filter_test_docs --fos=psychology --year=2019
+python -m processing.25_filter_test_docs --fos=physics --year=2017
+python -m processing.25_filter_test_docs --fos=computer_science --year=2017
+python -m processing.25_filter_test_docs --fos=political_science --year=2016
 
 # BM25 -------------------------------------------------------------------------
 for FOS in $fos;
@@ -72,4 +82,9 @@ do
     python -m finalize_data.2_extract_qrels --fos=$FOS
     python -m finalize_data.3_extract_bm25_runs --fos=$FOS
     python -m finalize_data.4_extract_query_ids --fos=$FOS
+    python -m finalize_data.5_extract_references --fos=$FOS
+    python -m finalize_data.6_extract_authors --fos=$FOS
+    python -m finalize_data.7_extract_fos_hierarchies --fos=$FOS
+    python -m finalize_data.8_extract_affiliations --fos=$FOS
+    python -m finalize_data.9_extract_venues --fos=$FOS
 done
