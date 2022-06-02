@@ -11,13 +11,7 @@ def prepare_document(doc):
     doc = json.loads(doc)
     doc = {
         "id": doc["id"],
-        "contents": preprocessing(
-            doc["title"]
-            + "\n"
-            + doc["text"]
-            # + "\n"
-            # + "\n".join(doc["keywords"])
-        ),
+        "contents": preprocessing(doc["title"] + "\n" + doc["text"]),
         "timestamp": doc["timestamp"],
     }
     doc["timestamp"] = max(doc["timestamp"], 0)
@@ -68,15 +62,8 @@ def prepare_collection(lang, fos, threads):
 
 
 @click.command()
-@click.option(
-    "--lang",
-    required=True,
-    default="en",
-)
-@click.option(
-    "--fos",
-    required=True,
-)
+@click.option("--lang", required=True, default="en")
+@click.option("--fos", required=True)
 @click.option(
     "--threads",
     required=True,
