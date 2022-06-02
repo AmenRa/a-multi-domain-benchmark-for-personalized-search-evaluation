@@ -130,8 +130,8 @@ Each JSON line is as follows:
 
 ### `conference_series.jsonl`
 Each JSON line is as follows:
-{
 ```python
+{
   "id": ...
   "name": ...
 }
