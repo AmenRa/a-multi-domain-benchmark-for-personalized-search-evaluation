@@ -93,53 +93,67 @@ Each JSON line is as follows:
 ### `in_refs.jsonl` (incoming reference)
 Each JSON line is as follows:
 ```python
+{
   "doc_id": ...
   "in_refs": [{"doc_id": "...", "timestamp": ...}, ...]
+}
 ```
 
 ### `out_refs.jsonl` (outgoing reference)
 Each JSON line is as follows:
 ```python
+{
   "doc_id": ...
   "timestamp": ...
   "out_refs": ["2048600620", ...]
+}
 ```
 
 ### `affiliations.jsonl`
 Each JSON line is as follows:
 ```python
+{
   "id": ...
   "name": ...   # Name of the institution
+}
 ```
 
 ### `conference_instances.jsonl`
 Each JSON line is as follows:
 ```python
+{
   "id": ...
   "name": ...
   "conference_series_id": ...
+}
 ```
 
 ### `conference_series.jsonl`
 Each JSON line is as follows:
+{
 ```python
   "id": ...
   "name": ...
+}
 ```
 
 ### `journals.jsonl`
 Each JSON line is as follows:
 ```python
+{
   "id": ...
   "name": ...
+}
 ```
 
 ### `fields_of_study_hierarchies.jsonl`
 Fields of studies associated with the documents have a hierarchical tree structure.  
 Each JSON line is as follows:
 ```python
+{
   "id": ...
   "hierarchy": ...
+}
 ```
 
 <!-- - Install WGET
