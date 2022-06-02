@@ -142,48 +142,12 @@ def generate_title_queries(dataset_path: str):
     return queries
 
 
-def generate_keyword_queries(fos: str):
-    papers_path = join_path("datasets", "en", fos, "collection.jsonl")
-
-    queries = []
-
-    with open(papers_path, "r") as papers_f:
-        for line in tqdm(
-            papers_f,
-            desc="Generating queries",
-            mininterval=1.0,
-            dynamic_ncols=True,
-        ):
-            paper = json.loads(line)
-
-            text = " ".join(paper["keywords"])
-            text = preprocessing(text)
-
-            # Remove duplicated words while preserving order
-            seen = set()
-            text = [x for x in text.split() if not (x in seen or seen.add(x))]
-            text = " ".join(text)
-
-            query = {
-                "id": paper["id"],
-                "text": text,
-                "timestamp": paper["timestamp"],
-            }
-
-            queries.append(query)
-
-    return queries
-
-
 @click.command()
 @click.argument("fos_list", nargs=-1)
 @click.option("--lang", default="en")
-@click.option(
-    "--kind", default="title", type=click.Choice(["title", "keywords"])
-)
 @click.option("--min_rel", default=1)
 @click.option("--min_user_docs", default=20)
-def main(lang, fos_list, kind, min_rel, min_user_docs):
+def main(lang, fos_list, min_rel, min_user_docs):
     datasets_path = join_path("tmp", "datasets")
     lang_path = join_path(datasets_path, lang)
 
@@ -191,10 +155,7 @@ def main(lang, fos_list, kind, min_rel, min_user_docs):
         print(f"{i+1}/{len(fos_list)} - {fos}")
         dataset_path = join_path(lang_path, fos)
 
-        if kind == "title":
-            queries = generate_title_queries(dataset_path)
-        else:
-            queries = generate_keyword_queries(fos)
+        queries = generate_title_queries(dataset_path)
         queries = add_relevants(dataset_path, queries)
         queries = filter_queries_by_min_relevants(queries, min_rel)
         queries = add_user(dataset_path, queries)

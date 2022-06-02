@@ -34,8 +34,8 @@ def add_tags(lang: str, fos: str):
                 paper["keywords"] = tag["keywords"]
                 write_f.write(json.dumps(paper) + "\n")
                 del papers_dict[doc_id]
-            else:
-                print(doc_id, "not found")
+            # else:
+            #     print(doc_id, "not found")
 
 
 @click.command()

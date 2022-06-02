@@ -42,6 +42,7 @@ def add_abstracts(lang: str, fos: str):
                 del papers_dict[doc_id]
             else:
                 print(doc_id, "not found")
+                exit()
 
 
 @click.command()

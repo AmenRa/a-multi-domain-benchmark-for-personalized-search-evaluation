@@ -2,7 +2,7 @@ import json
 import os
 
 import click
-from src.oneliner_utils import join_path, read_jsonl, write_jsonl
+from src.oneliner_utils import join_path, read_jsonl
 from tqdm import tqdm
 
 
@@ -31,10 +31,11 @@ def add_fos(lang: str, fos: str):
             doc_id = _fos["doc_id"]
             paper = papers_dict.get(doc_id, False)
             if paper:
-                field_of_study = paper.get("field_of_study", [False])
+                field_of_study = paper.get("fields_of_study", [])
                 field_of_study.append(_fos["fos_id"])
-            else:
-                print(doc_id, "not found")
+                paper["fields_of_study"] = field_of_study
+            # else:
+            #     print(doc_id, "not found")
 
     with open(collection_path, "w") as write_f:
         for paper in papers_dict.values():

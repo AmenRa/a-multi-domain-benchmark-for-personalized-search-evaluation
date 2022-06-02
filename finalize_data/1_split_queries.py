@@ -13,13 +13,6 @@ def split_train_val(train_set, train_ratio=0.99):
     return train_set, val_set
 
 
-# def split_train_val(train_set, n_val_queries=5_000):
-#     random.shuffle(train_set)
-#     val_set = train_set[:n_val_queries]
-#     train_set = train_set[n_val_queries:]
-#     return train_set, val_set
-
-
 def filter_by_min_rels(queries, min_rels=10):
     return [x for x in queries if len(x["rel_doc_ids"]) >= min_rels]
 
