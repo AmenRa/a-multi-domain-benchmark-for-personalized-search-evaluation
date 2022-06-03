@@ -2,6 +2,8 @@
 
 We provide large-scale multi-domain benchmark datasets for Personalized Search.
 
+A link to the datasets will be provided soon!
+
 
 ## Folder structure of each dataset
 ```
