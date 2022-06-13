@@ -2,8 +2,7 @@
 
 We provide large-scale multi-domain benchmark datasets for Personalized Search.
 
-A link to the datasets will be provided soon!
-
+The datasets can be found [here](https://zenodo.org/record/6606557).
 
 ## Folder structure of each dataset
 ```
