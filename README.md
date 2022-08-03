@@ -1,5 +1,13 @@
 # A Multi-domain Benchmark for Personalized Search Evaluation
 
+<p align="center">
+  <!-- Zenodo -->
+  <a href="https://doi.org/10.5281/zenodo.6606557">
+    <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6606557.svg" alt="DOI">
+  </a>
+  <!-- License -->
+</p>
+
 We provide large-scale multi-domain benchmark datasets for Personalized Search.
 
 The datasets can be found [here](https://zenodo.org/record/6606557).
