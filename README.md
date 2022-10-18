@@ -10,8 +10,8 @@
 
 We provide large-scale multi-domain benchmark datasets for Personalized Search.
 
-The datasets can be found [here](https://zenodo.org/record/6606557).
-Models' source code can be found [here](https://github.com/AmenRa/amdbfpse-baselines).
+The datasets can be found [here](https://zenodo.org/record/6606557).  
+Models' source code can be found [here](https://github.com/AmenRa/amdbfpse-baselines).  
 Pre-computed baseline runs are available on [ranxhub](https://amenra.github.io/ranxhub).
 
 ## Folder structure of each dataset
