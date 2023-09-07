@@ -14,6 +14,20 @@ The datasets can be found [here](https://zenodo.org/record/6606557).
 Models' source code can be found [here](https://github.com/AmenRa/amdbfpse-baselines).  
 Pre-computed baseline runs are available on [ranxhub](https://amenra.github.io/ranxhub).
 
+## Citation
+
+Please cite the following paper if you use the data or code in this repo.
+
+```
+@inproceedings{bassani2022multi,
+  title={A Multi-Domain Benchmark for Personalized Search Evaluation},
+  author={Bassani, Elias and Kasela, Pranav and Raganato, Alessandro and Pasi, Gabriella},
+  booktitle={Proceedings of the 31st ACM International Conference on Information \& Knowledge Management},
+  pages={3822--3827},
+  year={2022}
+}
+```
+
 ## Folder structure of each dataset
 ```
 - train:
